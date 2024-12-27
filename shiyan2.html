@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>vivek 的个人博客</title>
+    <style>
+        /* 视频区域样式优化 */
+    .embed-responsive {
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        /* 内容展示区域样式优化 */
+        #content-area {
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            background-color: #fff;
+            transition: opacity 0.5s ease; /* 添加透明度过渡效果 */
+        }
+
+        /* 加载内容时的样式类 */
+    .loading-content {
+            opacity: 0.5;
+        }
+
+        /* Jumbotron 部分样式优化 */
+    .jumbotron-custom {
+            background-color: #f8f9fa;
+            padding: 2rem 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 简单的加载动画样式示例（可以根据喜好替换更复杂好看的动画） */
+    .loading {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 整个页面内容区域的样式，添加了相对定位，以便内部的绝对定位元素参考 */
+    .page-content {
+            position: relative;
+        }
+
+        /* 覆盖层样式，用于在页面加载时阻止其他操作 */
+    .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5);
+            z-index: 9998;
+            display: none;
+        }
+
+        /* 加载动画容器的样式，绝对定位在覆盖层中间 */
+    .loading-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+
+        /* 确保页面主体内容可以滚动 */
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+      .container.page-content {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        /* 为每个页面内容区域添加一个自定义类用于区分和定位判断 */
+      .page-section {
+            height: 100vh; /* 假设每个页面内容区域占满一屏高度，可根据实际调整 */
+            border-bottom: 1px solid #ccc; /* 用于区分不同页面区域的视觉效果，可按需去掉 */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <div class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">vivek 博客</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <!-- 子导航 -->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">主页 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <!-- 计算机 -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="computerDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                            计算机
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="computerDropdown">
+                            <a class="dropdown-item" href="#" data-page="计算机/计算机专业学习路线.html">学习路线</a>
+                            <a class="dropdown-item" href="#" data-page="计算机/编程技巧.html">编程技巧</a>
+                            <a class="dropdown-item" href="#" data-page="计算机/软件开发.html">软件开发</a>
+                            <a class="dropdown-item" href="#" data-page="计算机/人工智能.html">人工智能</a>
+                            <a class="dropdown-item" href="#">更多...</a>
+                        </div>
+                    </li>
+                    <!-- 管理学 -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="managementDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                            管理学
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="managementDropdown">
+                            <a class="dropdown-item" href="#" data-page="管理学/管理学概览.html">管理学概览</a>
+                            <a class="dropdown-item" href="#" data-page="管理学/组织行为学.html">组织行为学</a>
+                            <a class="dropdown-item" href="#" data-page="管理学/战略管理.html">战略管理</a>
+                            <a class="dropdown-item" href="#" data-page="管理学/项目管理.html">项目管理</a>
+                            <a class="dropdown-item" href="#">更多...</a>
+                        </div>
+                    </li>
+                    <!-- 经济学 -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="economicsDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                            经济学
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="economicsDropdown">
+                            <a class="dropdown-item" href="#" data-page="经济学/微观经济学.html">微观经济学</a>
+                            <a class="dropdown-item" href="#" data-page="经济学/宏观经济学.html">宏观经济学</a>
+                            <a class="dropdown-item" href="#" data-page="经济学/产业经济学.html">产业经济学</a>
+                            <a class="dropdown-item" href="#" data-page="经济学/计量经济学.html">计量经济学</a>
+                            <a class="dropdown-item" href="#">更多...</a>
+                        </div>
+                    </li>
+                    <!-- 生命健康 -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="healthDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                            生命健康
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="healthDropdown">
+                            <a class="dropdown-item" href="#" data-page="生命健康/健康饮食.html">健康饮食</a>
+                            <a class="dropdown-item" href="#" data-page="生命健康/运动健身.html">运动健身</a>
+                            <a class="dropdown-item" href="#" data-page="生命健康/心理健康.html">心理健康</a>
+                            <a class="dropdown-item" href="#" data-page="生命健康/医疗保健.html">医疗保健</a>
+                            <a class="dropdown-item" href="#">更多...</a>
+                        </div>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="搜索内容" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+                </form>
+            </div>
+        </nav>
+    </div>
+
+    <!-- 页面内容区域，添加了一个自定义类用于整体样式控制 -->
+    <div class="container my-4 page-content">
+        <!-- 内容展示区域 -->
+        <div class="col-md-4" id="content-area">
+            <!-- 初始内容，可以是一个欢迎信息或默认页面 -->
+            <div class="jumbotron jumbotron-custom page-section">
+                <h1 class="display-4">欢迎来到我的博客!</h1>
+                <p class="lead">这里是一个分享知识和经验的平台。</p>
+                <hr class="my-4">
+                <p>选择一个主题开始探索吧。</p>
+            </div>
+           
+        </div>
+        <div class="col-md-8">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="//player.bilibili.com/player.html?isOutside=true&aid=417381588&bvid=BV18V411n7pL&cid=321075088&p=1" allowfullscreen="true"></iframe>
+            </div>
+        </div>
+
+        <!-- 示例：计算机页面内容区域，这里先简单占位，实际需替换为对应页面内容 -->
+        <div class="col-md-12 page-section" id="computer-section">
+        
+            <h2>计算机相关内容展示区</h2>
+            <p>这里可以展示计算机专业学习路线、编程技巧等相关内容，后续按需完善。</p>
+        </div>
+
+        <!-- 示例：管理学页面内容区域，同样先简单占位 -->
+        <div class="col-md-12 page-section" id="management-section">
+            <h2>管理学相关内容展示区</h2>
+            <p>这里会呈现管理学各方面知识内容，比如管理学概览、组织行为学等相关信息。</p>
+        </div>
+
+        <!-- 示例：经济学页面内容区域 -->
+        <div class="col-md-12 page-section" id="economics-section">
+            <h2>经济学相关内容展示区</h2>
+            <p>展示微观经济学、宏观经济学等经济学领域的内容。</p>
+        </div>
+
+        <!-- 示例：生命健康页面内容区域 -->
+        <div class="col-md-12 page-section" id="health-section">
+            <h2>生命健康相关内容展示区</h2>
+            <p>有关健康饮食、运动健身等生命健康板块内容放置此处。</p>
+        </div>
+    </div>
+
+    <!-- 覆盖层和加载动画容器，初始隐藏 -->
+    <div class="overlay"></div>
+    <div class="loading-container">
+        <div class="loading"></div>
+    </div>
+
+    <!-- JavaScript 引用 -->
+    <script>
+        $(document).ready(function () {
+            // 页面滚动事件监听
+            $(window).on('scroll', function () {
+                var scrollTop = $(window).scrollTop();
+                var windowHeight = $(window).height();
+
+                // 遍历每个页面内容区域（示例中为.page-section 类的元素）
+                $('.page-section').each(function () {
+                    var sectionTop = $(this).offset().top;
+                    var sectionBottom = sectionTop + $(this).height();
+
+                    // 判断滚动位置是否进入当前页面区域
+                    if (scrollTop >= sectionTop && scrollTop < sectionBottom) {
+                        var sectionId = $(this).attr('id');
+                        // 根据页面区域的id来切换导航栏对应链接为激活状态（这里简单示例，可根据实际完善逻辑）
+                        if (sectionId === 'computer-section') {
+                            $('.nav-item.dropdown').removeClass('show');
+                            $('#computerDropdown').parent().addClass('show');
+                        } else if (sectionId === 'management-section') {
+                            $('.nav-item.dropdown').removeClass('show');
+                            $('#managementDropdown').parent().addClass('show');
+                        } else if (sectionId === 'economics-section') {
+                            $('.nav-item.dropdown').removeClass('show');
+                            $('#economicsDropdown').parent().addClass('show');
+                        } else if (sectionId === 'health-section') {
+                            $('.nav-item.dropdown').removeClass('show');
+                            $('#healthDropdown').parent().addClass('show');
+                        }
+                    }
+                });
+
+                $('.dropdown-item').click(function (e) {
+                    e.preventDefault();
+                    var page = $(this).data('page');
+
+                    // 显示覆盖层和加载动画
+                    $('.overlay').show();
+                    $('.loading-container').show();
+
+                    $('#content-area').load(page, function (response, status, xhr) {
+                        if (status === "error") {
+                            alert("加载页面 " + page + " 时出错，请检查网络或页面是否存在！");
+                        }
+                        // 隐藏覆盖层和加载动画
+                        $('.overlay').hide();
+                        $('.loading-container').hide();
+
+                        // 页面加载完成后，平滑滚动到内容展示区域（#content-area）
+                        $('html, body').animate({
+                            scrollTop: $("#content-area").offset().top
+                        }, 500); // 500 是滚动动画的时长，可以根据需求调整
+                    });
+                });
+            });
+        });
+    </script>
+    
+</body>
+
+</html>

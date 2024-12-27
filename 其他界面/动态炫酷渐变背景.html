@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ZXW-NUDT: 动态炫彩渐变背景</title>
+        <style>
+            body, html {
+                height: 100%;
+                margin: 0;
+            }
+
+            .gradient-background {
+                /* 设置渐变背景 */
+                background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+
+                /* 使背景全屏 */
+                height: 100%; 
+
+                /* 添加背景渐变动画 */
+                animation: gradientBG 15s ease infinite;
+                background-size: 300% 300%;
+            }
+
+            /* 定义背景渐变动画 */
+            @keyframes gradientBG {
+                0% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
+                100% {
+                    background-position: 0% 50%;
+                }
+            }
+            /* 假设看板娘元素对应的类名为 live2d-container（具体以实际为准） */
+   .live2d-container {
+        z-index: 9999;
+    }
+        </style>
+        <!-- 看板娘 -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
+    </head>
+<body>
+<div class="gradient-background">
+<!-- 内容可以放这里 -->
+</div>
+</body>
+</html>

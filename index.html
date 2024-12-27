@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Vivek 的个人博客，涵盖计算机、管理学、经济学和生命健康等领域的知识分享与学习资源。">
+    <meta name="keywords" content="博客, 计算机, 管理学, 经济学, 生命健康">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>vivek 的个人博客</title>
+    <style>
+     /* 为返回顶部按钮添加一些样式 */
+     #back-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 9999;
+        border: none;
+        outline: none;
+        background-color: #4caf50;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 10px;
+        font-size: 18px;
+      }   
+        /* 内容展示区域样式优化 */
+        #content-area {
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            background-color: #fff;
+        }
+        /* 加载内容时添加过渡效果 */
+        .loading {
+            position: relative;
+            min-height: 100px; /* 确保内容区有一定高度 */
+        }
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 3rem;
+            height: 3rem;
+            border: 4px solid rgba(0, 0, 0, 0.2);
+            border-top-color: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            transform: translate(-50%, -50%);
+        }
+        .list-group-item {
+            font-size: 1rem;
+            color: #333;
+        }
+        .list-group-item:hover {
+            background-color: #f0f0f0;
+            color: #007bff;
+        }
+        @keyframes spin {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+        /* 视频区域样式优化 */
+    
+
+    /* 页面主体内容区域样式，确保可以滚动 */
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .container.my-4 {
+        flex: 1;
+        overflow-y: auto;
+        margin-top: -5px;
+        
+    }
+
+    /* 每个页面部分的样式，这里假设每个页面部分高度为视口高度，可根据实际调整 */
+    .page-section {
+        min-height: 100vh;
+        /* padding: 2rem; */
+        border-bottom: 1px solid #ccc;
+        overflow: auto;
+    }
+    .equal-height-container {
+        display: flex; /* 设置为flex容器 */
+    }
+    .equal-height-container > div {
+        flex: 1; /* 让两列平均分配空间，实现等高效果 */
+    }
+    .home-section-container {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: flex-start;
+    }
+   /* 看板娘向前显示 */
+    .live2d-container {
+        z-index: 9999;
+    }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <div class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">vivek 博客</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <!-- 子导航 -->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">主页 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <!-- 计算机 -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="computerDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                            计算机
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="computerDropdown">
+                            <a class="dropdown-item" href="计算机/计算机专业学习路线.html" data-page="计算机/计算机专业学习路线.html" target="_blank">学习路线</a>
+                            <a class="dropdown-item" href="#" data-page="计算机/编程技巧.html">编程技巧</a>
+                            <a class="dropdown-item" href="#" data-page="计算机/软件开发.html">软件开发</a>
+                            <a class="dropdown-item" href="#" data-page="计算机/人工智能.html">人工智能</a>
+                            <a class="dropdown-item" href="#computer-section">更多...</a>
+                        </div>
+                    </li>
+                    <!-- 管理学 -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="managementDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                            管理学
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="managementDropdown">
+                            <a class="dropdown-item" href="管理学/管理学概览.html" data-page="管理学/管理学概览.html" target="_blank">管理学概览</a>
+                            <a class="dropdown-item" href="#" data-page="管理学/组织行为学.html">组织行为学</a>
+                            <a class="dropdown-item" href="#" data-page="管理学/战略管理.html">战略管理</a>
+                            <a class="dropdown-item" href="#" data-page="管理学/项目管理.html">项目管理</a>
+                            <a class="dropdown-item" href="#">更多...</a>
+                        </div>
+                    </li>
+                    <!-- 经济学 -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="economicsDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                            经济学
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="economicsDropdown">
+                            <a class="dropdown-item" href="#" data-page="经济学/微观经济学.html">微观经济学</a>
+                            <a class="dropdown-item" href="#" data-page="经济学/宏观经济学.html">宏观经济学</a>
+                            <a class="dropdown-item" href="#" data-page="经济学/产业经济学.html">产业经济学</a>
+                            <a class="dropdown-item" href="#" data-page="经济学/计量经济学.html">计量经济学</a>
+                            <a class="dropdown-item" href="#" data-page="经济学/金融学.html">金融学</a>
+                            <a class="dropdown-item" href="#">更多...</a>
+                        </div>
+                    </li>
+                    <!-- 生命健康 -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="healthDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                            生命健康
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="healthDropdown">
+                            <a class="dropdown-item" href="#" data-page="生命健康/健康饮食.html">健康饮食</a>
+                            <a class="dropdown-item" href="#" data-page="生命健康/运动健身.html">运动健身</a>
+                            <a class="dropdown-item" href="#" data-page="生命健康/心理健康.html">心理健康</a>
+                            <a class="dropdown-item" href="#" data-page="生命健康/医疗保健.html">医疗保健</a>
+                            <a class="dropdown-item" href="#">更多...</a>
+                        </div>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="搜索内容" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+                </form>
+                <ul class="navbar-nav navbar-right">
+                    <li class="nav-item">
+                      <a class="nav-link text-success" href="./login.html">Sign in</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link text-success" href="./reg.html">Sign up</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a
+                        class="nav-link dropdown-toggle"
+                        href="#"
+                        role="button"
+                        data-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        王羲之
+                      </a>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">个人中心</a>
+                        <a class="dropdown-item" href="#">退出登录</a>
+                        <a class="dropdown-item" href="#">重置密码</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="admin.html">后台管理</a>
+                      </div>
+                    </li>
+                  </ul>
+            </div>
+        </nav>
+    </div>
+
+    <!-- 页面内容区域 -->
+    <div class="container my-4">       
+
+        <!-- 计算机部分 -->
+        <div class="row page-section" id="computer-section">
+            <div class="col-md-12">
+
+                <h2>计算机相关内容展示区</h2>
+                <p>计算机科学是一门广泛而深入的学科，涵盖了众多领域。以下是一些主要方面：</p>
+                <div class="container" style="margin-top: 10px">
+                    <div class="card mb-3">
+                      <div class="row no-gutters">
+                        <div class="col-md-4">
+                          <img
+                            class="hover-zoom"
+                            src="images/编程语言1.png"
+                            alt=""
+                            style="width: 100%"
+                          />
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <h5 class="card-title text-success">
+                              <a href="#" class="text-success">编程语言</a>
+                            </h5>
+                            <p class="card-text">
+                                如 Python，它具有简洁的语法和丰富的库，广泛应用于数据科学、人工智能、网络编程等领域。例如，使用 Python 的 `numpy` 和 `pandas` 库可以高效地处理和分析大量数据。
+                            </p>
+                            <p class="card-text"><a href="计算机/编程语言介绍.html" target="_blank">了解更多编程语言知识</a></p>
+                            <p class="card-text">
+                              <small class="text-muted">Last updated 10 mins ago</small>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="row no-gutters">
+                          <div class="col-md-4">
+                            <img
+                              class="hover-zoom"
+                              src="images/算法与数据结构.png"
+                              alt=""
+                              style="width: 100%"
+                            />
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title text-success">
+                                <a href="#" class="text-success">算法与数据结构</a>
+                              </h5>
+                              <p class="card-text">
+                                  这是计算机科学的核心基础，包括排序算法（如快速排序、归并排序）、搜索算法（如二分查找）以及各种数据结构（如链表、栈、队列、树、图）。它们在软件开发中起着关键作用，能够优化程序的性能和效率。
+                              </p>
+                              <p class="card-text"><a href="计算机/算法与数据结构.html" target="_blank">深入学习算法与数据结构</a></p>
+                              <p class="card-text">
+                                <small class="text-muted">Last updated 3 mins ago</small>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card mb-3">
+                        <div class="row no-gutters">
+                          <div class="col-md-4">
+                            <img
+                              class="hover-zoom"
+                              src="images/软件开发.png"
+                              alt=""
+                              style="width: 100%"
+                            />
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title text-success">
+                                <a href="#" class="text-success">软件开发</a>
+                              </h5>
+                              <p class="card-text">
+                                  从需求分析、设计、编码到测试和维护，涉及到多种开发方法和工具。例如，使用敏捷开发方法可以快速响应需求变化，提高开发效率。
+                              </p>
+                              <p class="card-text"><a href="计算机/软件开发.html" target="_blank">深入学习软件开发</a></p>
+                              <p class="card-text">
+                                <small class="text-muted">Last updated 3 mins ago</small>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card mb-3">
+                        <div class="row no-gutters">
+                          <div class="col-md-4">
+                            <img
+                              class="hover-zoom"
+                              src="images/人工智能与机器学习.png"
+                              alt=""
+                              style="width: 100%"
+                            />
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title">
+                                <a href="#" class="text-success">人工智能与机器学习</a>
+                              </h5>
+                              <p class="card-text">
+                                  这是当今计算机领域的热门方向，通过让计算机自动学习数据中的模式和规律，实现智能决策和预测。例如，图像识别、语音识别、自然语言处理等应用都离不开人工智能技术。
+                              </p>
+                              <p class="card-text"><a href="计算机/人工智能与机器学习.html" target="_blank">开启人工智能之旅</a></p>
+                              <p class="card-text">
+                                <small class="text-muted">Last updated 3 mins ago</small>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- 管理学部分 -->
+<div class="row page-section" id="management-section">
+    <div class="col-md-12">
+        <h2>管理学相关内容展示区</h2>
+        <p>管理学是一门综合性学科，对于组织的有效运作和发展起着关键作用，涵盖了众多重要领域：</p>
+        <div class="container" style="margin-top: 10px">
+            <div class="card mb-3">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img
+                    class="hover-zoom"
+                    src="images/管理学概览.png"
+                    alt=""
+                    style="width: 100%"
+                  />
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title text-success">
+                      <a href="#" class="text-success">管理学概览</a>
+                    </h5>
+                    <p class="card-text">
+                        介绍管理学的基本概念、发展历程、主要理论学派，如古典管理理论、行为科学理论、现代管理理论等，帮助您构建对管理学的整体认知框架。
+                    </p>
+                    <p class="card-text"><a href="管理学/管理学概览详情.html" target="_blank">查看管理学概览详情</a></p>
+                    <p class="card-text">
+                      <small class="text-muted">Last updated 10 mins ago</small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card mb-3">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img
+                    class="hover-zoom"
+                    src="images/组织行为学.png"
+                    alt=""
+                    style="width: 100%"
+                  />
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title text-success">
+                      <a href="#" class="text-success">组织行为学</a>
+                    </h5>
+                    <p class="card-text">
+                        聚焦于组织内个体、群体以及组织系统对组织行为的影响，包括员工激励、团队建设、领导行为、组织文化等方面，助力您理解如何激发员工积极性和提升团队协作效率。
+                    </p>
+                    <p class="card-text"><a href="管理学/组织行为学详情.html" target="_blank">深入了解组织行为学</a></p>
+                    <p class="card-text">
+                      <small class="text-muted">Last updated 3 mins ago</small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card mb-3">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img
+                    class="hover-zoom"
+                    src="images/战略管理.png"
+                    alt=""
+                    style="width: 100%"
+                  />
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title text-success">
+                      <a href="#" class="text-success">战略管理</a>
+                    </h5>
+                    <p class="card-text">
+                        讲述企业如何制定长期战略目标，并通过战略规划、实施和评估来实现可持续竞争优势，涵盖环境分析、战略选择、战略执行等关键环节。
+                    </p>
+                    <p class="card-text"><a href="管理学/战略管理详情.html" target="_blank">探索战略管理奥秘</a></p>
+                    <p class="card-text">
+                      <small class="text-muted">Last updated 3 mins ago</small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card mb-3">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img
+                    class="hover-zoom"
+                    src="images/项目管理.png"
+                    alt=""
+                    style="width: 100%"
+                  />
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <a href="#" class="text-success">项目管理</a>
+                    </h5>
+                    <p class="card-text">
+                        详细说明项目从启动到结束的全过程管理，包括项目范围、进度、成本、质量、风险管理等，确保项目能够按时、按质、在预算范围内完成。
+                    </p>
+                    <p class="card-text"><a href="管理学/项目管理详情.html" target="_blank">学习项目管理技巧</a></p>
+                    <p class="card-text">
+                      <small class="text-muted">Last updated 3 mins ago</small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card mb-3">
+                <div class="row no-gutters">
+                  <div class="col-md-4">
+                    <img
+                      class="hover-zoom"
+                      src="images/人力资源管理.png"
+                      alt=""
+                      style="width: 100%"
+                    />
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a href="#" class="text-success">人力资源管理</a>
+                      </h5>
+                      <p class="card-text">
+                        围绕人力资源规划、招聘与选拔、培训与开发、绩效管理、薪酬福利管理等职能展开，揭示如何有效开发和利用组织中的人力资源。
+                      </p>
+                      <p class="card-text"><a href="管理学/人力资源管理详情.html" target="_blank">掌握人力资源管理精髓</a></p>
+                      <p class="card-text">
+                        <small class="text-muted">Last updated 3 mins ago</small>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card mb-3">
+                <div class="row no-gutters">
+                  <div class="col-md-4">
+                    <img
+                      class="hover-zoom"
+                      src="images/财务管理.png"
+                      alt=""
+                      style="width: 100%"
+                    />
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a href="#" class="text-success">财务管理</a>
+                      </h5>
+                      <p class="card-text">
+                        待补充......
+                      </p>
+                      <p class="card-text">
+                        <small class="text-muted">Last updated 3 mins ago</small>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+          </div>
+        
+    </div>
+</div>
+
+        <!-- 经济学部分 -->
+<div class="row page-section" id="economics-section">
+    <div class="col-md-12">
+        <h2>经济学相关内容展示区</h2>
+        <p>经济学作为一门研究资源配置和经济现象的学科，有着丰富的内涵和广泛的应用领域，下面为你介绍一些主要方面：</p>
+                <!-- 卡片组 -->
+    <div class="container" style="margin-top: 10px">
+        <div class="card mb-3">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img
+                class="hover-zoom"
+                src="images/微观经济学.png"
+                alt=""
+                style="width: 100%"
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title text-success">
+                  <a href="#" class="text-success">微观经济学</a>
+                </h5>
+                <p class="card-text">
+                    主要研究个体经济单位的经济行为，例如消费者如何在有限的预算下做出最优的消费决策以实现效用最大化，企业如何在成本约束下确定产量和价格以实现利润最大化等。通过对供求关系、市场结构（如完全竞争、垄断竞争、寡头垄断和完全垄断）以及生产要素市场的分析，揭示市场经济的运行机制。
+                </p>
+                <p class="card-text"><a href="经济学/微观经济学详解.html" target="_blank">深入学习微观经济学</a></p>
+                <p class="card-text">
+                  <small class="text-muted">Last updated 10 mins ago</small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-3">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img
+                class="hover-zoom"
+                src="images/宏观经济学.png"
+                alt=""
+                style="width: 100%"
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title text-success">
+                  <a href="#" class="text-success">宏观经济学</a>
+                </h5>
+                <p class="card-text">
+                    关注整体经济现象，如国民收入、通货膨胀、失业率、经济增长等。研究政府的宏观经济政策（财政政策和货币政策）如何影响总需求和总供给，进而对整个经济的稳定和增长产生作用。例如，通过调整利率和货币供应量来应对通货膨胀或经济衰退。
+                </p>
+                <p class="card-text"><a href="经济学/宏观经济学详解.html" target="_blank">探索宏观经济学世界</a></a></p>
+                <p class="card-text">
+                  <small class="text-muted">Last updated 3 mins ago</small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-3">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img
+                class="hover-zoom"
+                src="images/产业经济学.png"
+                alt=""
+                style="width: 100%"
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <a href="#" class="text-success">产业经济学</a>
+                </h5>
+                <p class="card-text">
+                    分析特定产业的结构、行为和绩效，探讨产业内企业之间的竞争与合作关系，以及产业政策对产业发展的影响。比如研究互联网产业的市场集中度、创新模式以及政府对新兴产业的扶持政策等。
+                </p>
+                <p class="card-text"><a href="经济学/产业经济学详解.html" target="_blank">剖析产业经济学奥秘</a></p>
+                <p class="card-text">
+                  <small class="text-muted">Last updated 3 mins ago</small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-3">
+            <div class="row no-gutters">
+              <div class="col-md-4">
+                <img
+                  class="hover-zoom"
+                  src="images/计量经济学.png"
+                  alt=""
+                  style="width: 100%"
+                />
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <a href="#" class="text-success">计量经济学</a>
+                  </h5>
+                  <p class="card-text">
+                    运用数学、统计学和计算机技术，对经济数据进行建模和分析，以验证经济理论、预测经济趋势和评估政策效果。例如，通过建立回归模型来分析房价与收入、利率等因素之间的定量关系。
+                  </p>
+                  <p class="card-text"><a href="经济学/计量经济学详解.html" target="_blank">掌握计量经济学方法</a></p>
+                  <p class="card-text">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+       
+    </div>
+</div>
+
+<!-- 生命健康部分 -->
+<div class="row page-section" id="health-section">
+    <div class="col-md-12">
+        <h2>生命健康相关内容展示区</h2>
+        <p>生命健康是我们生活的重要基石，以下是一些关键领域的详细介绍：</p>
+                    <!-- 卡片组 -->
+    <div class="container" style="margin-top: 10px">
+        <div class="card mb-3">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img
+                class="hover-zoom"
+                src="images/健康饮食.png"
+                alt=""
+                style="width: 100%"
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title text-success">
+                  <a href="#" class="text-success">健康饮食</a>
+                </h5>
+                <p class="card-text">
+                    合理的饮食结构对于维持身体健康至关重要。了解各类食物的营养成分，如蛋白质、碳水化合物、脂肪、维生素和矿物质的作用，以及如何搭配食物以满足身体的日常需求。例如，增加蔬菜、水果、全谷物的摄入，减少加工食品和高糖饮料的消费，有助于预防慢性疾病。
+                </p>
+                <p class="card-text"><a href="生命健康/健康饮食指南.html" target="_blank">获取健康饮食详细指南</a></p>
+                <p class="card-text">
+                  <small class="text-muted">Last updated 10 mins ago</small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-3">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img
+                class="hover-zoom"
+                src="images/运动健身.png"
+                alt=""
+                style="width: 100%"
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title text-success">
+                  <a href="#" class="text-success">运动健身</a>
+                </h5>
+                <p class="card-text">
+                    定期的体育锻炼可以增强心肺功能、提高肌肉力量、改善身体柔韧性和平衡能力，还能缓解压力和焦虑。无论是有氧运动（如跑步、游泳、骑自行车）还是力量训练（如举重、俯卧撑、仰卧起坐），都有其独特的益处。了解适合不同人群的运动方案和注意事项，开启健康活力的生活方式。
+                </p>
+                <p class="card-text"><a href="生命健康/运动健身计划.html" target="_blank">查看运动健身计划</a></a></p>
+                <p class="card-text">
+                  <small class="text-muted">Last updated 3 mins ago</small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-3">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img
+                class="hover-zoom"
+                src="images/心理健康.png"
+                alt=""
+                style="width: 100%"
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title text-success">
+                  <a href="#" class="text-success">心理健康</a>
+                </h5>
+                <p class="card-text">
+                    关注心理健康同样不容忽视。压力管理、情绪调节、应对焦虑和抑郁等方面的知识和技巧，能够帮助我们保持积极乐观的心态，提升生活质量。学习有效的心理调适方法，如冥想、深呼吸、心理咨询等，呵护心灵的健康。
+                </p>
+                <p class="card-text"><a href="生命健康/心理健康呵护.html" target="_blank">学习心理健康呵护方法</a></a></p>
+                <p class="card-text">
+                  <small class="text-muted">Last updated 3 mins ago</small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-3">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img
+                class="hover-zoom"
+                src="images/医疗保健.png"
+                alt=""
+                style="width: 100%"
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <a href="#" class="text-success">医疗保健</a>
+                </h5>
+                <p class="card-text">
+                    了解常见疾病的预防、诊断和治疗方法，掌握基本的急救技能，以及定期进行体检的重要性。从日常的健康监测到应对突发疾病的应急措施，知识就是守护生命健康的有力武器。
+                </p>
+                <p class="card-text"><a href="生命健康/医疗保健常识.html" target="_blank">了解医疗保健常识</a></p>
+                <p class="card-text">
+                  <small class="text-muted">Last updated 3 mins ago</small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+        
+    </div>
+</div>
+<button onclick="topFunction()" id="back-to-top" title="返回顶部">
+    ↑返回顶部
+</button>
+    <footer class="bg-white text-default mt-5 p-4 ">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <h5>关于我们</h5>
+              <p>这里是关于我们公司的简短介绍。</p>
+            </div>
+            <div class="col-md-4">
+              <h5>快速链接</h5>
+              <ul class="list-unstyled">
+                <li><a href="#" class="text-secondary">首页</a></li>
+                <li><a href="#" class="text-secondary">服务</a></li>
+                <li><a href="#" class="text-secondary">产品</a></li>
+                <li><a href="#" class="text-secondary">联系我们</a></li>
+              </ul>
+            </div>
+            <div class="col-md-4">
+              <h5>联系信息</h5>
+              <p>地址：123 街道, 城市, 国家</p>
+              <p>电话：123-456-7890</p>
+              <p>Email：info@example.com</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 text-center">
+              <p>版权所有 &copy; 2024 你的公司名称. 保留所有权利。</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <!-- JavaScript 引用 -->
+    <script> 
+    // 当用户滚动到页面底部以下500px时，显示返回顶部按钮
+      window.onscroll = function () {
+        scrollFunction();
+      };
+      function scrollFunction() {
+        if (
+          document.body.scrollTop > 500 ||
+          document.documentElement.scrollTop > 500
+        ) {
+          document.getElementById('back-to-top').style.display = 'block';
+        } else {
+          document.getElementById('back-to-top').style.display = 'none';
+        }
+      }
+      // 当点击返回顶部按钮时，平滑滚动到页面顶部
+      function topFunction() {
+        document.body.scrollTop = 0; // 对于Chrome、Safari和Opera
+        document.documentElement.scrollTop = 0; // 对于Firefox、IE和Edge
+      }
+        // 建立板块与导航栏对应关系的数据结构
+        const sectionDropdownMap = {
+            'computer-section': 'computerDropdown',
+            'management-section': 'managementDropdown',
+            'economics-section': 'economicsDropdown',
+            'health-section': 'healthDropdown',
+            'home-section': null // 主页没有对应的下拉菜单，设为null
+        };
+
+        // function resetContentArea() {
+        //     $('#content-area').html(''); // 清空内容区域的HTML内容
+        //     $('#content-area').removeClass('loading'); // 移除加载动画类，避免残留动画效果影响新的加载
+        // }
+        function resetContentArea() {
+            $('#content-area').html('');
+            $('#content-area').removeClass('loading');
+            // 移除之前可能绑定的点击事件（示例，根据实际情况调整）
+            $('#content-area').off('click');
+            // 如果有定时器等，也需要清除，例如（假设存在名为myTimer的定时器）
+            clearTimeout(window.myTimer);
+        }
+
+        $(document).ready(function () {
+            // // 先移除已有的.dropdown-item点击事件绑定（避免重复绑定导致的问题）
+            // $('.dropdown-item').off('click');
+            // 页面滚动事件监听
+            $(window).on('scroll', function () {
+                var scrollTop = $(window).scrollTop();
+                var windowHeight = $(window).height();
+                $('.page-section').each(function () {
+                    var sectionTop = $(this).offset().top;
+                    var sectionBottom = sectionTop + $(this).height();
+                    if (scrollTop >= sectionTop && scrollTop < sectionBottom) {
+                        var sectionId = $(this).attr('id');
+                        var dropdownId = sectionDropdownMap[sectionId];
+                        $('.nav-item.dropdown').removeClass('show');
+                        if (dropdownId) {
+                            $('#' + dropdownId).parent().addClass('show');
+                        } else {
+                            $('.nav-item.active').addClass('show');
+                        }
+                    }
+                });
+            });
+    });
+    </script>
+    <script>
+      (function () {
+          var a_idx = 0;
+          window.onclick = function (event) {
+              var a = new Array("❤富强❤", "❤民主❤", "❤文明❤", "❤和谐❤", "❤自由❤", "❤平等❤", "❤公正❤", "❤法治❤", "❤爱国❤",
+                  "❤敬业❤", "❤诚信❤", "❤友善❤");
+
+              var heart = document.createElement("b"); //创建b元素
+              heart.onselectstart = new Function('event.returnValue=false'); //防止拖动
+
+              document.body.appendChild(heart).innerHTML = a[a_idx]; //将b元素添加到页面上
+              a_idx = (a_idx + 1) % a.length;
+              heart.style.cssText = "position: fixed;left:-100%;"; //给p元素设置样式
+
+              var f = 16, // 字体大小
+                  x = event.clientX - f / 2, // 横坐标
+                  y = event.clientY - f, // 纵坐标
+                  c = randomColor(), // 随机颜色
+                  a = 1, // 透明度
+                  s = 1.2; // 放大缩小
+
+              var timer = setInterval(function () { //添加定时器
+                  if (a <= 0) {
+                      document.body.removeChild(heart);
+                      clearInterval(timer);
+                  } else {
+                      heart.style.cssText = "font-size:16px;cursor: default;position: fixed;color:" +
+                          c + ";left:" + x + "px;top:" + y + "px;opacity:" + a + ";transform:scale(" +
+                          s + ");";
+
+                      y--;
+                      a -= 0.016;
+                      s += 0.002;
+                  }
+              }, 15)
+
+          }
+          // 随机颜色
+          function randomColor() {
+
+              return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math
+              .random() * 255)) + ")";
+
+          }
+      }());
+  </script>
+
+  <!-- 看板娘 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
+        
+</body>
+
+
+</html>

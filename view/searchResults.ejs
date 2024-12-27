@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>搜索结果</title>
+</head>
+
+<body>
+    <h1>搜索结果</h1>
+    <% if (results.length > 0) { %>
+        <ul>
+            <% results.forEach(result => { %>
+                <li>
+                    <a href="<%= result.link %>"><%= result.title %></a>
+                    <p><%= result.content.substring(0, 200) %>...</p>
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>未找到相关结果。</p>
+    <% } %>
+</body>
+
+</html>
